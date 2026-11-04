@@ -33,7 +33,7 @@ function NewRequestPage() {
   const [pickupDate, setPickupDate] = useState(
     new Date(Date.now() + 86400000).toISOString().split('T')[0]
   );
-  const [pickupTime, setPickupTime] = useState('6:00 – 7:00 PM');
+  const [pickupTime, setPickupTime] = useState('7:00 – 8:00 PM');
   const [specialInstructions, setSpecialInstructions] = useState('');
 
   // Photos upload state
@@ -416,6 +416,7 @@ function NewRequestPage() {
           </div>
 
           {/* Special Instructions */}
+          {isPremium && (
           <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
             <label className="block text-xs font-bold text-gray-700 uppercase tracking-wide mb-1">
               Special Washing Instructions
@@ -428,6 +429,7 @@ function NewRequestPage() {
               className="w-full p-2.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
             />
           </div>
+          )}
         </div>
 
         {/* Right Column: Preferences, Price Summary & Submit (1 col) */}
@@ -465,10 +467,8 @@ function NewRequestPage() {
                   onChange={(e) => setPickupTime(e.target.value)}
                   className="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
                 >
-                  <option value="6:00 – 7:00 PM">Evening 6:00 – 7:00 PM</option>
-                  <option value="7:00 – 8:00 PM">Evening 7:00 – 8:00 PM</option>
-                  <option value="8:00 – 9:00 PM">Night 8:00 – 9:00 PM</option>
                   <option value="8:00 – 9:00 AM">Morning 8:00 – 9:00 AM</option>
+                  <option value="7:00 – 8:00 PM">Evening 7:00 – 8:00 PM</option>
                 </select>
               </div>
             </div>

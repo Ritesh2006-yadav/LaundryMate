@@ -6,7 +6,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
   PlusCircle,
-  Sparkles,
   ClipboardList,
   CreditCard,
   MessageSquareWarning,
@@ -23,7 +22,6 @@ export default function StudentSidebar({ mobileOpen, setMobileOpen, user }) {
   const navItems = [
     { href: '/student/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/student/new-request', label: 'New Laundry Request', icon: PlusCircle },
-    { href: '/student/premium-cleaning', label: 'Premium Dry Cleaning', icon: Sparkles },
     { href: '/student/orders', label: 'My Orders', icon: ClipboardList },
     { href: '/student/payments', label: 'Payments', icon: CreditCard },
     { href: '/student/complaints', label: 'Complaints', icon: MessageSquareWarning },

@@ -12,7 +12,6 @@ import {
   ArrowRight,
   RefreshCw,
   Eye,
-  CheckCircle2,
 } from 'lucide-react';
 import { StatusBadge, PaymentBadge } from '@/components/common/Badge';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
@@ -130,41 +129,6 @@ export default function StudentDashboardPage() {
             </div>
           );
         })}
-      </div>
-
-      {/* Quick Services Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-gradient-to-r from-emerald-50 to-white border border-[#b7e4c7] p-5 rounded-xl">
-          <div className="flex items-center gap-2 text-[#1b4332] font-bold text-sm mb-1">
-            <CheckCircle2 size={18} />
-            <span>Regular Hostel Wash & Fold</span>
-          </div>
-          <p className="text-xs text-gray-600 mb-3">
-            Everyday laundry including shirts, t-shirts, jeans, and bedsheets washed, dried, and crisply pressed at ₹15–₹30.
-          </p>
-          <Link
-            href="/student/new-request"
-            className="text-xs font-bold text-[#1b4332] hover:underline inline-flex items-center gap-1"
-          >
-            Create regular order <ArrowRight size={14} />
-          </Link>
-        </div>
-
-        <div className="bg-gradient-to-r from-amber-50 to-white border border-amber-200 p-5 rounded-xl">
-          <div className="flex items-center gap-2 text-amber-900 font-bold text-sm mb-1">
-            <Sparkles size={18} />
-            <span>Premium Dry Cleaning Service</span>
-          </div>
-          <p className="text-xs text-gray-600 mb-3">
-            Special delicate care for woolen blazers, suits, ethnic silk wear, and delicate garments with solvent treatment.
-          </p>
-          <Link
-            href="/student/premium-cleaning"
-            className="text-xs font-bold text-amber-800 hover:underline inline-flex items-center gap-1"
-          >
-            Explore premium cleaning <ArrowRight size={14} />
-          </Link>
-        </div>
       </div>
 
       {/* Recent Orders Table */}
