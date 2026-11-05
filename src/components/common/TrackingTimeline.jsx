@@ -56,7 +56,7 @@ export default function TrackingTimeline({ status, estimatedDelivery, statusHist
           </p>
         </div>
         {estimatedDelivery && (
-          <div className="inline-flex items-center gap-2 bg-[#e9f7ee] text-[#1b4332] px-3 py-1.5 rounded-lg text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 bg-[#FFF1E5] text-[#B95E19] px-3 py-1.5 rounded-lg text-xs font-semibold">
             <span>Estimated Delivery:</span>
             <span className="font-bold underline">{estimatedDelivery}</span>
           </div>
@@ -76,7 +76,7 @@ export default function TrackingTimeline({ status, estimatedDelivery, statusHist
               {idx > 0 && (
                 <div
                   className={`absolute top-4 -left-1/2 w-full h-1 -z-10 transition-colors ${
-                    idx <= currentIndex ? 'bg-[#1b4332]' : 'bg-gray-200'
+                    idx <= currentIndex ? 'bg-[#B95E19]' : 'bg-gray-200'
                   }`}
                 />
               )}
@@ -84,9 +84,9 @@ export default function TrackingTimeline({ status, estimatedDelivery, statusHist
               <div
                 className={`w-9 h-9 rounded-full flex items-center justify-center transition-all ${
                   isCurrent
-                    ? 'bg-[#1b4332] text-white ring-4 ring-[#b7e4c7] shadow-sm'
+                    ? 'bg-[#B95E19] text-white ring-4 ring-[#F2B783] shadow-sm'
                     : isDone
-                    ? 'bg-[#1b4332] text-white'
+                    ? 'bg-[#B95E19] text-white'
                     : 'bg-gray-100 text-gray-400 border border-gray-200'
                 }`}
               >
@@ -96,7 +96,7 @@ export default function TrackingTimeline({ status, estimatedDelivery, statusHist
               <span
                 className={`text-xs mt-2 font-medium leading-tight ${
                   isCurrent
-                    ? 'text-[#1b4332] font-bold'
+                    ? 'text-[#B95E19] font-bold'
                     : isDone
                     ? 'text-gray-900'
                     : 'text-gray-400'
@@ -124,9 +124,9 @@ export default function TrackingTimeline({ status, estimatedDelivery, statusHist
               <div
                 className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
                   isCurrent
-                    ? 'bg-[#1b4332] text-white ring-4 ring-[#b7e4c7]'
+                    ? 'bg-[#B95E19] text-white ring-4 ring-[#F2B783]'
                     : isDone
-                    ? 'bg-[#1b4332] text-white'
+                    ? 'bg-[#B95E19] text-white'
                     : 'bg-gray-100 text-gray-400'
                 }`}
               >
@@ -137,7 +137,7 @@ export default function TrackingTimeline({ status, estimatedDelivery, statusHist
                   <p
                     className={`text-xs font-semibold ${
                       isCurrent
-                        ? 'text-[#1b4332] font-bold'
+                        ? 'text-[#B95E19] font-bold'
                         : isDone
                         ? 'text-gray-900'
                         : 'text-gray-400'
@@ -155,7 +155,7 @@ export default function TrackingTimeline({ status, estimatedDelivery, statusHist
                   )}
                 </div>
                 {isCurrent && (
-                  <p className="text-[11px] text-[#1b4332] font-medium mt-0.5">
+                  <p className="text-[11px] text-[#B95E19] font-medium mt-0.5">
                     Currently in progress
                   </p>
                 )}

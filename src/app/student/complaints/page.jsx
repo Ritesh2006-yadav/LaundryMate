@@ -149,7 +149,7 @@ export default function StudentComplaintsPage() {
               setError('');
               setSuccess('');
             }}
-            className="inline-flex items-center gap-2 bg-[#1b4332] hover:bg-[#2d6a4f] text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition"
+            className="inline-flex items-center gap-2 bg-[#B95E19] hover:bg-[#984A12] text-white px-4 py-2.5 rounded-lg text-xs font-semibold shadow-sm transition"
           >
             <PlusCircle size={16} />
             <span>Report New Issue</span>
@@ -173,7 +173,7 @@ export default function StudentComplaintsPage() {
           action={
             <button
               onClick={() => setShowModal(true)}
-              className="inline-flex items-center gap-2 bg-[#1b4332] text-white px-4 py-2 rounded-lg text-xs font-semibold"
+              className="inline-flex items-center gap-2 bg-[#B95E19] text-white px-4 py-2 rounded-lg text-xs font-semibold"
             >
               Report an Issue
             </button>
@@ -242,8 +242,8 @@ export default function StudentComplaintsPage() {
 
               {/* Staff Response */}
               {c.staffResponse ? (
-                <div className="bg-[#e9f7ee] border border-[#b7e4c7] rounded-xl p-3.5 text-xs">
-                  <div className="flex items-center gap-1.5 font-bold text-[#1b4332] mb-1">
+                <div className="bg-[#FFF1E5] border border-[#F2B783] rounded-xl p-3.5 text-xs">
+                  <div className="flex items-center gap-1.5 font-bold text-[#B95E19] mb-1">
                     <CheckCircle2 size={16} />
                     <span>Staff Response & Resolution:</span>
                   </div>
@@ -294,7 +294,7 @@ export default function StudentComplaintsPage() {
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
+                  className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B95E19]"
                 >
                   {CATEGORIES.map((cat) => (
                     <option key={cat} value={cat}>
@@ -311,7 +311,7 @@ export default function StudentComplaintsPage() {
                 <select
                   value={orderId}
                   onChange={(e) => setOrderId(e.target.value)}
-                  className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
+                  className="w-full px-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B95E19]"
                 >
                   <option value="">None / General Issue</option>
                   {orders.map((o) => (
@@ -332,7 +332,7 @@ export default function StudentComplaintsPage() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Please describe which garment was affected, color, tag, or what happened..."
-                  className="w-full p-2.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
+                  className="w-full p-2.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B95E19]"
                 />
               </div>
 
@@ -369,7 +369,7 @@ export default function StudentComplaintsPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 text-xs font-semibold bg-[#1b4332] hover:bg-[#2d6a4f] text-white rounded-lg shadow-sm transition disabled:opacity-60"
+                  className="px-5 py-2 text-xs font-semibold bg-[#B95E19] hover:bg-[#984A12] text-white rounded-lg shadow-sm transition disabled:opacity-60"
                 >
                   {submitting ? 'Submitting...' : 'Submit Complaint'}
                 </button>

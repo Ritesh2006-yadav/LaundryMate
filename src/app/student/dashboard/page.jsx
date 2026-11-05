@@ -68,7 +68,7 @@ export default function StudentDashboardPage() {
       label: 'Ready for Delivery',
       value: stats.readyForDelivery,
       icon: Sparkles,
-      color: 'bg-[#e9f7ee] text-[#1b4332] border-[#b7e4c7]',
+      color: 'bg-[#FFF1E5] text-[#B95E19] border-[#F2B783]',
     },
     {
       label: 'Pending Payments',
@@ -102,7 +102,7 @@ export default function StudentDashboardPage() {
 
           <Link
             href="/student/new-request"
-            className="inline-flex items-center gap-2 bg-[#1b4332] hover:bg-[#2d6a4f] text-white px-4 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition"
+            className="inline-flex items-center gap-2 bg-[#B95E19] hover:bg-[#984A12] text-white px-4 py-2.5 rounded-lg text-sm font-semibold shadow-sm transition"
           >
             <PlusCircle size={18} />
             <span>New Laundry Request</span>
@@ -145,7 +145,7 @@ export default function StudentDashboardPage() {
 
           <Link
             href="/student/orders"
-            className="text-xs font-semibold text-[#1b4332] hover:underline inline-flex items-center gap-1"
+            className="text-xs font-semibold text-[#B95E19] hover:underline inline-flex items-center gap-1"
           >
             View all orders <ArrowRight size={14} />
           </Link>
@@ -159,7 +159,7 @@ export default function StudentDashboardPage() {
               action={
                 <Link
                   href="/student/new-request"
-                  className="inline-flex items-center gap-2 bg-[#1b4332] text-white px-4 py-2 rounded-lg text-xs font-semibold"
+                  className="inline-flex items-center gap-2 bg-[#B95E19] text-white px-4 py-2 rounded-lg text-xs font-semibold"
                 >
                   <PlusCircle size={16} /> Create Request
                 </Link>
@@ -221,7 +221,7 @@ export default function StudentDashboardPage() {
                       <td className="px-5 py-3.5 text-right">
                         <Link
                           href={`/student/orders?selected=${order.orderId}`}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#1b4332] hover:text-[#2d6a4f] bg-[#e9f7ee] px-2.5 py-1 rounded"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#B95E19] hover:text-[#984A12] bg-[#FFF1E5] px-2.5 py-1 rounded"
                         >
                           <Eye size={14} /> Track
                         </Link>

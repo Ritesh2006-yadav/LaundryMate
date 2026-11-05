@@ -6,8 +6,8 @@ export function apiError(error, fallback = 'The request could not be completed.'
   }
   if (error?.code === 11000) {
     const field = Object.keys(error.keyPattern || {})[0];
-    const label = field === 'registrationNumber' ? 'registration number' : 'email';
-    return NextResponse.json({ success: false, message: `An account with this ${label} already exists.` }, { status: 409 });
+    const label = field === 'registrationNumber' ? 'registration number' : field === 'email' ? 'email' : field || 'value';
+    return NextResponse.json({ success: false, message: `A record with this ${label} already exists.` }, { status: 409 });
   }
   if (error?.name === 'ValidationError') {
     return NextResponse.json({ success: false, message: Object.values(error.errors || {}).map((item) => item.message).join(' ') || 'Please check the submitted information.' }, { status: 400 });

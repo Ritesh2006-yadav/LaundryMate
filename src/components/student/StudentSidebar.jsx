@@ -57,14 +57,14 @@ export default function StudentSidebar({ mobileOpen, setMobileOpen, user }) {
           {/* Brand header */}
           <div className="h-16 flex items-center justify-between px-5 border-b border-gray-100">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-[#1b4332] text-white rounded-lg flex items-center justify-center">
+              <div className="w-9 h-9 bg-[#B95E19] text-white rounded-lg flex items-center justify-center">
                 <Shirt size={20} />
               </div>
               <div>
                 <h1 className="text-base font-bold text-gray-900 leading-tight">
                   LaundryMate
                 </h1>
-                <p className="text-[11px] font-semibold text-[#1b4332] uppercase tracking-wider">
+                <p className="text-[11px] font-semibold text-[#B95E19] uppercase tracking-wider">
                   Student Portal
                 </p>
               </div>
@@ -91,8 +91,8 @@ export default function StudentSidebar({ mobileOpen, setMobileOpen, user }) {
                   onClick={() => setMobileOpen(false)}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-[#1b4332] text-white shadow-sm'
-                      : 'text-gray-700 hover:bg-[#e9f7ee] hover:text-[#1b4332]'
+                      ? 'bg-[#B95E19] text-white shadow-sm'
+                      : 'text-gray-700 hover:bg-[#FFF1E5] hover:text-[#B95E19]'
                   }`}
                 >
                   <Icon size={18} />
@@ -107,7 +107,7 @@ export default function StudentSidebar({ mobileOpen, setMobileOpen, user }) {
         <div className="p-3 border-t border-gray-100">
           <div className="p-3 bg-gray-50 rounded-lg mb-2">
             <div className="flex items-center gap-2 mb-1">
-              <User size={14} className="text-[#1b4332]" />
+              <User size={14} className="text-[#B95E19]" />
               <p className="text-xs font-bold text-gray-900 truncate">
                 {user?.name || 'Student'}
               </p>

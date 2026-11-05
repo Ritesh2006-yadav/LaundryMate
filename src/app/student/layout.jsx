@@ -38,14 +38,14 @@ export default function StudentLayout({ children }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8faf9]">
+      <div className="min-h-screen flex items-center justify-center bg-[#FFFAF6]">
         <LoadingSpinner message="Loading student portal..." />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f8faf9] flex">
+    <div className="min-h-screen bg-[#FFFAF6] flex">
       {/* Sidebar */}
       <StudentSidebar mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} user={user} />
 
@@ -65,7 +65,7 @@ export default function StudentLayout({ children }) {
                 Hostel Laundry Service
               </span>
               {user?.hostel && (
-                <span className="hidden sm:inline-block text-xs bg-[#e9f7ee] text-[#1b4332] font-semibold px-2 py-0.5 rounded">
+                <span className="hidden sm:inline-block text-xs bg-[#FFF1E5] text-[#B95E19] font-semibold px-2 py-0.5 rounded">
                   {user.hostel} · {user.block} - {user.roomNumber}
                 </span>
               )}
@@ -77,7 +77,7 @@ export default function StudentLayout({ children }) {
               <p className="text-xs font-bold text-gray-900">{user?.name}</p>
               <p className="text-[10px] text-gray-500 font-mono">{user?.registrationNumber}</p>
             </div>
-            <div className="w-8 h-8 rounded-full bg-[#1b4332] text-white flex items-center justify-center text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-[#B95E19] text-white flex items-center justify-center text-xs font-bold">
               {user?.name?.charAt(0) || 'S'}
             </div>
           </div>

@@ -134,11 +134,7 @@ export async function POST(req) {
     const pricing = calculateOrderPrice(items, premiumFlag);
 
     // Generate unique order ID: e.g. ORD-2026-9281
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-    const orderId = `ORD-${new Date().getFullYear()}-${randomSuffix}`;
-
-    const newOrder = await Order.create({
-      orderId,
+    const orderData = {
       student: user.id,
       items: pricing.items,
       photos: photos || [],
@@ -166,7 +162,21 @@ export async function POST(req) {
         status: 'Pending',
         paymentMethod: 'Cash / UPI at Delivery',
       },
-    });
+    };
+
+    // Order IDs have a unique index. Retry only when that index collides; never
+    // interpret an order write conflict as an account registration conflict.
+    let newOrder;
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+      try {
+        newOrder = await Order.create({ ...orderData, orderId: `ORD-${new Date().getFullYear()}-${randomSuffix}` });
+        break;
+      } catch (err) {
+        const duplicateOrderId = err?.code === 11000 && (err.keyPattern?.orderId || err.keyValue?.orderId);
+        if (!duplicateOrderId || attempt === 4) throw err;
+      }
+    }
 
     const populated = await Order.findById(newOrder._id).populate(
       'student',

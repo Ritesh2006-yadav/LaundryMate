@@ -162,7 +162,7 @@ function NewRequestPage() {
   if (successOrder) {
     return (
       <div className="max-w-xl mx-auto bg-white rounded-2xl border border-gray-200 p-8 shadow-sm text-center">
-        <div className="w-16 h-16 bg-[#e9f7ee] text-[#1b4332] rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-[#FFF1E5] text-[#B95E19] rounded-full flex items-center justify-center mx-auto mb-4">
           <CheckCircle size={32} />
         </div>
         <h2 className="text-xl font-bold text-gray-900">Request Submitted!</h2>
@@ -189,7 +189,7 @@ function NewRequestPage() {
           </div>
           <div className="flex justify-between pt-2 border-t border-gray-200 text-sm">
             <span className="font-bold text-gray-900">Total Estimated Price:</span>
-            <span className="font-bold text-[#1b4332]">₹{successOrder.payment?.totalAmount}</span>
+            <span className="font-bold text-[#B95E19]">₹{successOrder.payment?.totalAmount}</span>
           </div>
         </div>
 
@@ -206,7 +206,7 @@ function NewRequestPage() {
           </button>
           <button
             onClick={() => router.push(`/student/orders?selected=${successOrder.orderId}`)}
-            className="px-5 py-2 text-xs font-semibold bg-[#1b4332] hover:bg-[#2d6a4f] text-white rounded-lg shadow-sm transition"
+            className="px-5 py-2 text-xs font-semibold bg-[#B95E19] hover:bg-[#984A12] text-white rounded-lg shadow-sm transition"
           >
             Track Order Progress
           </button>
@@ -246,7 +246,7 @@ function NewRequestPage() {
                 onClick={() => setServiceType('regular')}
                 className={`p-3.5 rounded-xl border text-left transition ${
                   serviceType === 'regular'
-                    ? 'border-[#1b4332] bg-[#e9f7ee] text-[#1b4332] ring-2 ring-[#1b4332]'
+                    ? 'border-[#B95E19] bg-[#FFF1E5] text-[#B95E19] ring-2 ring-[#B95E19]'
                     : 'border-gray-200 hover:bg-gray-50 text-gray-700'
                 }`}
               >
@@ -264,11 +264,11 @@ function NewRequestPage() {
                 onClick={() => setServiceType('premium')}
                 className={`p-3.5 rounded-xl border text-left transition ${
                   serviceType === 'premium'
-                    ? 'border-amber-600 bg-amber-50 text-amber-950 ring-2 ring-amber-600'
+                    ? 'border-[#E99146] bg-[#FFF1E5] text-[#8C4615] ring-2 ring-[#E99146]'
                     : 'border-gray-200 hover:bg-gray-50 text-gray-700'
                 }`}
               >
-                <div className="flex items-center gap-2 font-bold text-sm text-amber-900">
+                <div className="flex items-center gap-2 font-bold text-sm text-[#8C4615]">
                   <Sparkles size={18} />
                   <span>Premium Dry Cleaning</span>
                 </div>
@@ -292,7 +292,7 @@ function NewRequestPage() {
                     key={cat.id}
                     type="button"
                     onClick={() => handleAddItem(cat.name)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 hover:bg-[#e9f7ee] hover:border-[#b7e4c7] hover:text-[#1b4332] text-xs font-medium transition"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 hover:bg-[#FFF1E5] hover:border-[#F2B783] hover:text-[#B95E19] text-xs font-medium transition"
                   >
                     <Plus size={14} />
                     <span>{cat.name}</span>
@@ -332,7 +332,7 @@ function NewRequestPage() {
                       <button
                         type="button"
                         onClick={() => handleUpdateCount(idx, -1)}
-                        className="w-5 h-5 flex items-center justify-center font-bold text-gray-600 hover:text-gray-900"
+                        className="w-5 h-5 flex items-center justify-center font-bold text-[#B95E19] hover:text-[#984A12]"
                       >
                         -
                       </button>
@@ -342,7 +342,7 @@ function NewRequestPage() {
                       <button
                         type="button"
                         onClick={() => handleUpdateCount(idx, 1)}
-                        className="w-5 h-5 flex items-center justify-center font-bold text-gray-600 hover:text-gray-900"
+                        className="w-5 h-5 flex items-center justify-center font-bold text-[#B95E19] hover:text-[#984A12]"
                       >
                         +
                       </button>
@@ -426,7 +426,7 @@ function NewRequestPage() {
               value={specialInstructions}
               onChange={(e) => setSpecialInstructions(e.target.value)}
               placeholder="e.g. Do not bleach white shirts, handle woolen sweater on gentle cycle, remove cuff stains..."
-              className="w-full p-2.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
+              className="w-full p-2.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B95E19]"
             />
           </div>
           )}
@@ -451,7 +451,7 @@ function NewRequestPage() {
                   required
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
+                  className="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B95E19]"
                 />
               </div>
             </div>
@@ -465,7 +465,7 @@ function NewRequestPage() {
                 <select
                   value={pickupTime}
                   onChange={(e) => setPickupTime(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
+                  className="w-full pl-9 pr-3 py-2 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#B95E19]"
                 >
                   <option value="8:00 – 9:00 AM">Morning 8:00 – 9:00 AM</option>
                   <option value="7:00 – 8:00 PM">Evening 7:00 – 8:00 PM</option>
@@ -504,7 +504,7 @@ function NewRequestPage() {
               </div>
               <div className="flex justify-between text-base font-bold text-gray-900 pt-2 border-t border-gray-200">
                 <span>Estimated Total:</span>
-                <span className="text-[#1b4332] font-mono">₹{pricing.totalAmount}</span>
+                <span className="text-[#B95E19] font-mono">₹{pricing.totalAmount}</span>
               </div>
               <p className="text-[10px] text-gray-400 mt-1">
                 Final bill verified upon staff garment collection.
@@ -514,7 +514,7 @@ function NewRequestPage() {
             <button
               type="submit"
               disabled={submitting || selectedItems.length === 0}
-              className="w-full mt-4 flex items-center justify-center gap-2 bg-[#1b4332] hover:bg-[#2d6a4f] text-white py-3 px-4 rounded-xl text-sm font-bold shadow-sm transition disabled:opacity-60"
+              className="w-full mt-4 flex items-center justify-center gap-2 bg-[#B95E19] hover:bg-[#984A12] text-white py-3 px-4 rounded-xl text-sm font-bold shadow-sm transition disabled:opacity-60"
             >
               {submitting ? 'Submitting Request...' : 'Confirm Laundry Request'}
             </button>

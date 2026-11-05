@@ -76,7 +76,7 @@ function StudentOrdersPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 text-xs border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#1b4332]"
+            className="px-3 py-2 text-xs border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-[#B95E19]"
           >
             <option value="all">All Orders</option>
             <option value="active">Active Orders</option>
@@ -109,7 +109,7 @@ function StudentOrdersPage() {
           action={
             <Link
               href="/student/new-request"
-              className="inline-flex items-center gap-2 bg-[#1b4332] text-white px-4 py-2 rounded-lg text-xs font-semibold"
+              className="inline-flex items-center gap-2 bg-[#B95E19] text-white px-4 py-2 rounded-lg text-xs font-semibold"
             >
               Submit New Request
             </Link>
@@ -182,7 +182,7 @@ function StudentOrdersPage() {
                             e.stopPropagation();
                             setSelectedOrder(order);
                           }}
-                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#1b4332] bg-[#e9f7ee] hover:bg-[#d8f3dc] px-2.5 py-1 rounded transition"
+                          className="inline-flex items-center gap-1 text-xs font-semibold text-[#B95E19] bg-[#FFF1E5] hover:bg-[#FFE1C7] px-2.5 py-1 rounded transition"
                         >
                           <Eye size={14} /> Track & Details
                         </button>

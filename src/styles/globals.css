@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #1b4332;
-  --primary-hover: #2d6a4f;
-  --primary-light: #e9f7ee;
-  --primary-subtle: #d8f3dc;
+  --primary-color: #B95E19;
+  --primary-hover: #984A12;
+  --primary-light: #FFF1E5;
+  --primary-subtle: #FFE1C7;
   --text-main: #1f2937;
   --text-muted: #6b7280;
-  --bg-page: #f8faf9;
+  --bg-page: #FFFAF6;
   --bg-card: #ffffff;
   --border-color: #e5e7eb;
 }
@@ -56,7 +56,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #1b4332;
+  background-color: #B95E19;
   color: #ffffff;
   font-weight: 500;
   padding: 0.5rem 1rem;
@@ -65,7 +65,7 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #2d6a4f;
+  background-color: #984A12;
 }
 
 .btn-primary:disabled {
