@@ -50,7 +50,7 @@ Designed following the official LPU brand language with responsive support acros
 
 ### 1. 🎓 Student Portal (`/student/*`)
 * **Registration & Login:**
-  - Login directly with University Registration Number (e.g., `12413882`) or registered student email.
+  - Login directly with University Registration Number (e.g., `1241212`) or registered student email.
   - Automatic profile hydration in `0ms` using synchronous session storage snapshots.
 * **New Laundry Booking Wizard (`/student/new-request`):**
   - **Step 1: Service Selection:** Wash Only (₹30/kg), Wash & Fold (₹40/kg), Wash & Iron (₹50/kg), Wash Dry & Iron (₹60/kg), Iron Only (₹20/kg).
@@ -101,7 +101,7 @@ Designed following the official LPU brand language with responsive support acros
 
 | Portal / Role | Access URL | Login Identifier | Password | Access Scope |
 |---|---|---|---|---|
-| **Student** | `/student/login` | `12413882` *(or student email)* | `akshay123` | Personal orders, room booking, complaints |
+| **Student** | `/student/login` | `1234567` *(or student email)* | `123456` | Personal orders, room booking, complaints |
 | **Laundry Staff** | `/staff/login` | `STF-8821` | `staff@123` | Plant intake, wash processing, delivery |
 | **Administrator** | `/admin/login` | `ADM-LPU-01` | `admin@123` | Complete system control, analytics, users |
 
