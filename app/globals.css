@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #6633CC;
+  --color-primary-hover: #5528B8;
+  --color-dark: #211747;
+  --color-deep: #17112F;
+  --color-orange: #F58220;
+  --color-orange-hover: #E07214;
+  --color-light-bg: #F5F4FA;
+  --color-card-bg: #FFFFFF;
+  --color-border: #E5E3F0;
+  --color-text-main: #1A162B;
+  --color-text-muted: #6B6780;
+}
+
+html, body {
+  background-color: var(--color-light-bg);
+  color: var(--color-text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar for modern dashboards */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D0CBE6;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A79CC8;
+}
+
+/* Sidebar scrollbar */
+.dark-sidebar::-webkit-scrollbar-thumb {
+  background: #2D2258;
+}
+
+.dark-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #3B2E74;
+}
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-semibold rounded-xl px-5 py-2.5 transition-all duration-200 text-white bg-[#6633CC] hover:bg-[#5528B8] shadow-sm hover:shadow-purple active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-orange {
+    @apply inline-flex items-center justify-center font-semibold rounded-xl px-5 py-2.5 transition-all duration-200 text-white bg-[#F58220] hover:bg-[#E07214] shadow-sm hover:shadow-orange active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-semibold rounded-xl px-5 py-2.5 transition-all duration-200 text-[#211747] bg-white border border-[#E5E3F0] hover:bg-[#F5F4FA] active:scale-[0.99] disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center font-semibold rounded-xl px-5 py-2.5 transition-all duration-200 text-white border border-white/20 hover:bg-white/10 active:scale-[0.99];
+  }
+
+  /* Cards */
+  .card-white {
+    @apply bg-white rounded-2xl border border-[#E5E3F0] shadow-soft transition-all duration-200;
+  }
+
+  .card-interactive {
+    @apply card-white hover:shadow-card hover:border-[#D3CEE8];
+  }
+
+  /* Inputs */
+  .input-field {
+    @apply w-full rounded-xl border border-[#E5E3F0] bg-white px-4 py-3 text-sm text-[#1A162B] placeholder-[#9E9AA8] transition-all duration-200 focus:border-[#6633CC] focus:outline-none focus:ring-4 focus:ring-[#6633CC]/10;
+  }
+
+  /* Sidebar Active Pill */
+  .sidebar-link-active {
+    @apply bg-[#F58220] text-white font-semibold shadow-orange;
+  }
+
+  .sidebar-link-inactive {
+    @apply text-white/70 hover:bg-[#2A1F56] hover:text-white transition-all;
+  }
+}
+
+/* Smooth Snappy Page Transitions */
+.page-enter {
+  animation: pageFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
