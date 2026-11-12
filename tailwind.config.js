@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+<<<<<<< HEAD
 module.exports = {
   content: [
     "./app/**/*.{js,jsx}",
@@ -6,10 +7,18 @@ module.exports = {
     "./lib/**/*.{js,jsx}",
     "./hooks/**/*.{js,jsx}",
     "./context/**/*.{js,jsx}",
+=======
+export default {
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+>>>>>>> e6a0d4ebed784b424f72aeb700fc2f8f200c94f1
   ],
   theme: {
     extend: {
       colors: {
+<<<<<<< HEAD
         brand: {
           purple: "#241747",
           purpleRich: "#6236C9",
@@ -45,6 +54,24 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "'Segoe UI'", "Roboto", "sans-serif"],
+=======
+        primary: {
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#166534',
+          900: '#14532d',
+          950: '#052e16',
+          brand: '#1b4332',
+          brandLight: '#e9f7ee',
+          brandHover: '#2d6a4f',
+        },
+>>>>>>> e6a0d4ebed784b424f72aeb700fc2f8f200c94f1
       },
     },
   },
