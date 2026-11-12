@@ -5,7 +5,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
-    domains: ["images.unsplash.com"],
+    domains: ["images.unsplash.com", "res.cloudinary.com"],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 86400,
   },
@@ -15,4 +15,3 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-

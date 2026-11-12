@@ -1,47 +1,39 @@
-<<<<<<< HEAD
-# dependencies
+# Dependencies
 /node_modules
 /.pnp
 .pnp.js
 
-# testing
-/coverage
-
-# next.js
+# Next.js build output
 /.next/
 /out/
-
-# production
 /build
+/dist
 
-# misc
+# Testing & Coverage
+/coverage
+
+# Misc / OS
 .DS_Store
 *.pem
+Thumbs.db
 
-# debug
+# Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
-# local env files
+# Environment and local secrets
 .env*.local
 .env
+!.env.example
 
-# vercel
+# Vercel deployment
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
 next-env.d.ts
 
-=======
-node_modules/
-.next/
-out/
-dist/
-coverage/
-.env*
-!.env.example
-npm-debug.log*
-.DS_Store
->>>>>>> e6a0d4ebed784b424f72aeb700fc2f8f200c94f1
+# Temporary developer scratchpad / local capture scripts
+/scratch/

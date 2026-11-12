@@ -1,19 +1,12 @@
 {
-<<<<<<< HEAD
   "name": "lpu-lms",
-  "version": "0.1.0",
-  "private": true,
-=======
-  "name": "laundrymate-portal",
   "version": "1.0.0",
-  "description": "Hostel Laundry Management System - Complete Portal (Student & Staff)",
-  "type": "module",
->>>>>>> e6a0d4ebed784b424f72aeb700fc2f8f200c94f1
+  "description": "Lovely Professional University - Hostel Laundry Management System (LPU LMS)",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-<<<<<<< HEAD
     "lint": "next lint"
   },
   "dependencies": {
@@ -31,23 +24,5 @@
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17"
-=======
-    "setup:admin": "node scripts/setup-admin.js"
-  },
-  "dependencies": {
-    "autoprefixer": "^10.4.20",
-    "bcryptjs": "^2.4.3",
-    "cloudinary": "^2.5.1",
-    "cookie": "^0.6.0",
-    "dotenv": "^18.0.9",
-    "jsonwebtoken": "^9.0.2",
-    "lucide-react": "^0.453.0",
-    "mongoose": "^8.7.0",
-    "next": "^14.2.15",
-    "postcss": "^8.4.47",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.14"
->>>>>>> e6a0d4ebed784b424f72aeb700fc2f8f200c94f1
   }
 }

@@ -2,7 +2,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-<<<<<<< HEAD
       "@/*": ["./*"]
     },
     "jsx": "preserve"
@@ -10,10 +9,3 @@
   "include": ["**/*.js", "**/*.jsx"],
   "exclude": ["node_modules", ".next"]
 }
-
-=======
-      "@/*": ["./src/*"]
-    }
-  }
-}
->>>>>>> e6a0d4ebed784b424f72aeb700fc2f8f200c94f1
