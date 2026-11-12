@@ -36,7 +36,7 @@ import { useComplaints } from "@/hooks/useComplaints";
 import { LPU_HOSTELS } from "@/lib/constants";
 
 export default function AdminStudentsPage() {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState(() => getStoredStudents());
   const [searchTerm, setSearchTerm] = useState("");
   const [hostelFilter, setHostelFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -50,7 +50,7 @@ export default function AdminStudentsPage() {
   const { orders } = useLaundryOrders();
   const { complaints } = useComplaints();
 
-  // Load students from storage
+  // Load students from storage if updated externally
   useEffect(() => {
     const loaded = getStoredStudents();
     setStudents(loaded);

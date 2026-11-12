@@ -366,16 +366,25 @@ export const INITIAL_INVENTORY_ITEMS = [
   },
 ];
 
-export function useInventory() {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+let cachedInventory = null;
 
-  const loadStoredInventory = useCallback(() => {
+export function useInventory() {
+  const [items, setItems] = useState(() => cachedInventory || INITIAL_INVENTORY_ITEMS);
+  const [loading, setLoading] = useState(false);
+
+  const loadStoredInventory = useCallback((force = false) => {
+    if (!force && cachedInventory) {
+      setItems(cachedInventory);
+      return;
+    }
     try {
       const stored = localStorage.getItem("lpu_lms_inventory");
       if (stored) {
-        setItems(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        cachedInventory = parsed;
+        setItems(parsed);
       } else {
+        cachedInventory = INITIAL_INVENTORY_ITEMS;
         localStorage.setItem(
           "lpu_lms_inventory",
           JSON.stringify(INITIAL_INVENTORY_ITEMS)
@@ -384,6 +393,7 @@ export function useInventory() {
       }
     } catch (e) {
       console.error("Failed to load inventory from storage", e);
+      cachedInventory = INITIAL_INVENTORY_ITEMS;
       setItems(INITIAL_INVENTORY_ITEMS);
     } finally {
       setLoading(false);
@@ -395,10 +405,10 @@ export function useInventory() {
 
     const handleStorage = (e) => {
       if (e.key === "lpu_lms_inventory") {
-        loadStoredInventory();
+        loadStoredInventory(true);
       }
     };
-    const handleCustom = () => loadStoredInventory();
+    const handleCustom = () => loadStoredInventory(true);
 
     window.addEventListener("storage", handleStorage);
     window.addEventListener("lpu_inventory_updated", handleCustom);
@@ -410,6 +420,7 @@ export function useInventory() {
   }, [loadStoredInventory]);
 
   const saveInventory = (newItems) => {
+    cachedInventory = newItems;
     setItems(newItems);
     try {
       localStorage.setItem("lpu_lms_inventory", JSON.stringify(newItems));

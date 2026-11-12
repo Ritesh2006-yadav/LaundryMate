@@ -28,7 +28,7 @@ import ClientPortal from "@/components/common/ClientPortal";
 import { getStoredStaff, saveStoredStaff } from "@/lib/supabase/authService";
 
 export default function AdminStaffPage() {
-  const [staffList, setStaffList] = useState([]);
+  const [staffList, setStaffList] = useState(() => getStoredStaff());
   const [searchTerm, setSearchTerm] = useState("");
   const [hubFilter, setHubFilter] = useState("all");
 

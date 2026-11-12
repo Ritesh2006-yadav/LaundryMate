@@ -3,26 +3,31 @@
 import { useState, useEffect } from "react";
 import { LAUNDRY_SERVICES as DEFAULT_SERVICES } from "@/lib/constants";
 
+let cachedServices = null;
+
 export function useLaundryServices() {
-  const [services, setServices] = useState(DEFAULT_SERVICES);
-  const [loading, setLoading] = useState(true);
+  const [services, setServices] = useState(() => cachedServices || DEFAULT_SERVICES);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (cachedServices) return;
     try {
       const stored = localStorage.getItem("lpu_lms_services");
       if (stored) {
-        setServices(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        cachedServices = parsed;
+        setServices(parsed);
       } else {
+        cachedServices = DEFAULT_SERVICES;
         localStorage.setItem("lpu_lms_services", JSON.stringify(DEFAULT_SERVICES));
       }
     } catch (e) {
       console.error("Failed to load services from localStorage", e);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
   const saveServices = (newServices) => {
+    cachedServices = newServices;
     setServices(newServices);
     try {
       localStorage.setItem("lpu_lms_services", JSON.stringify(newServices));
