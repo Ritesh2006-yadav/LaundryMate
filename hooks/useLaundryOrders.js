@@ -8,6 +8,7 @@ import { supabase } from "@/lib/supabase/client";
 let cachedOrders = null;
 let realtimeChannel = null;
 let realtimeSubscribers = 0;
+let teardownTimeout = null;
 
 export function useLaundryOrders() {
   const [orders, setOrders] = useState(() => cachedOrders || MOCK_ORDERS);
@@ -68,6 +69,10 @@ export function useLaundryOrders() {
 
     // Shared singleton Supabase Realtime channel (prevents WebSocket churn across navigation)
     if (supabase) {
+      if (teardownTimeout) {
+        clearTimeout(teardownTimeout);
+        teardownTimeout = null;
+      }
       realtimeSubscribers++;
       if (!realtimeChannel) {
         realtimeChannel = supabase
@@ -85,8 +90,13 @@ export function useLaundryOrders() {
       if (supabase) {
         realtimeSubscribers = Math.max(0, realtimeSubscribers - 1);
         if (realtimeSubscribers === 0 && realtimeChannel) {
-          supabase.removeChannel(realtimeChannel);
-          realtimeChannel = null;
+          if (teardownTimeout) clearTimeout(teardownTimeout);
+          teardownTimeout = setTimeout(() => {
+            if (realtimeSubscribers === 0 && realtimeChannel) {
+              supabase.removeChannel(realtimeChannel);
+              realtimeChannel = null;
+            }
+          }, 8000);
         }
       }
     };

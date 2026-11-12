@@ -43,39 +43,37 @@ export async function createLaundryRequestAction(orderData) {
       };
     }
 
-    // 2. Direct insert fallback into public.orders table
-    const { error: insertError } = await supabase.from("orders").insert({
-      id: requestId,
-      student_id: orderData.studentId || "00000000-0000-0000-0000-000000000001",
-      service_id: orderData.serviceId || "wash-fold",
-      service_name_snapshot: orderData.service || "Wash & Fold",
-      price_per_kg_snapshot: orderData.pricePerKg || 40.00,
-      status: "Request Placed",
-      payment_status: orderData.paymentStatus === "Pending (Cash on Pickup)" ? "Pending" : "Paid",
-      items_count: Number(orderData.itemsCount) || 5,
-      approx_weight_kg: Number(orderData.weightKg) || 5,
-      hostel_id: hostelId,
-      hostel_block: hostelBlock,
-      room_number: roomNumber,
-      pickup_date: dateKey,
-      pickup_slot: orderData.pickupSlot || "Morning Slot (08:00 AM - 10:00 AM)",
-      special_instructions: orderData.specialInstructions || orderData.runnerNotes || null,
-      total_amount: Number(orderData.amount || orderData.totalAmount) || 200,
-    });
-
-    if (insertError && !insertError.message.includes("placeholder")) {
-      console.warn("[Order Action] Direct insert note:", insertError.message);
-    }
-
-    // Insert initial status history record
-    try {
-      await supabase.from("order_status_history").insert({
+    // 2. Direct insert into public.orders and status history concurrently
+    const [orderInsertRes] = await Promise.all([
+      supabase.from("orders").insert({
+        id: requestId,
+        student_id: orderData.studentId || "00000000-0000-0000-0000-000000000001",
+        service_id: orderData.serviceId || "wash-fold",
+        service_name_snapshot: orderData.service || "Wash & Fold",
+        price_per_kg_snapshot: orderData.pricePerKg || 40.0,
+        status: "Request Placed",
+        payment_status: orderData.paymentStatus === "Pending (Cash on Pickup)" ? "Pending" : "Paid",
+        items_count: Number(orderData.itemsCount) || 5,
+        approx_weight_kg: Number(orderData.weightKg) || 5,
+        hostel_id: hostelId,
+        hostel_block: hostelBlock,
+        room_number: roomNumber,
+        pickup_date: dateKey,
+        pickup_slot: orderData.pickupSlot || "Morning Slot (08:00 AM - 10:00 AM)",
+        special_instructions: orderData.specialInstructions || orderData.runnerNotes || null,
+        total_amount: Number(orderData.amount || orderData.totalAmount) || 200,
+      }),
+      supabase.from("order_status_history").insert({
         order_id: requestId,
         status: "Request Placed",
         actor_name: orderData.studentName || "Student Resident",
         notes: "Laundry request placed at registered hostel room.",
-      });
-    } catch {}
+      }).catch(() => {}),
+    ]);
+
+    if (orderInsertRes?.error && !orderInsertRes.error.message.includes("placeholder")) {
+      console.warn("[Order Action] Direct insert note:", orderInsertRes.error.message);
+    }
 
     return {
       success: true,

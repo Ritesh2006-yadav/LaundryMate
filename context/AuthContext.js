@@ -38,10 +38,17 @@ export function AuthProvider({ children }) {
   });
 
   const [loading, setLoading] = useState(false);
+  const lastFetchTimeRef = React.useRef(0);
 
-  // Sync latest user details from Supabase session
-  const refreshUserProfile = useCallback(async () => {
+  // Sync latest user details from Supabase session (cached for 2 mins to prevent roundtrips on route navigation)
+  const refreshUserProfile = useCallback(async (force = false) => {
     if (!isSupabaseConfigured()) return;
+    const now = Date.now();
+    if (!force && now - lastFetchTimeRef.current < 120000) {
+      return;
+    }
+    lastFetchTimeRef.current = now;
+
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user) return;
@@ -50,33 +57,20 @@ export function AuthProvider({ children }) {
       const meta = authUser.user_metadata || {};
 
       let profileData = null;
-      let studentData = null;
-
       try {
         const { data: prof } = await supabase
           .from("profiles")
-          .select("*")
+          .select("id, full_name, reg_no, phone, hostel_name, hostel_block, room_number, wallet_balance, role")
           .eq("id", authUser.id)
           .maybeSingle();
         profileData = prof;
       } catch {}
 
-      if (meta.role === "student" || profileData?.role === "student") {
-        try {
-          const { data: std } = await supabase
-            .from("students")
-            .select("*")
-            .eq("id", authUser.id)
-            .maybeSingle();
-          studentData = std;
-        } catch {}
-      }
-
       const activeRole = profileData?.role || meta.role || role || "student";
-      const cleanReg = profileData?.reg_no || studentData?.reg_no || meta.reg_no || "12413882";
-      const blockRoomStr = studentData?.hostel_block && studentData?.room_number
-        ? `${studentData.hostel_block} / ${studentData.room_number}`
-        : meta.block_room || "A / 808";
+      const cleanReg = profileData?.reg_no || meta.reg_no || "12413882";
+      const blockRoomStr = (profileData?.hostel_block && profileData?.room_number)
+        ? `${profileData.hostel_block} / ${profileData.room_number}`
+        : meta.block_room || "Block A / 808";
 
       const refreshedUser = {
         id: authUser.id,
@@ -85,11 +79,11 @@ export function AuthProvider({ children }) {
         staffId: cleanReg,
         email: authUser.email,
         phone: profileData?.phone || meta.phone || "+91 81076 15285",
-        hostel: studentData?.hostel_id || meta.hostel_name || "BH-5 (Boys Hostel 5)",
-        hostelBlock: studentData?.hostel_block || meta.hostelBlock || "Block A",
-        roomNumber: studentData?.room_number || meta.roomNumber || "808",
+        hostel: profileData?.hostel_name || meta.hostel_name || "BH-5 (Boys Hostel 5)",
+        hostelBlock: profileData?.hostel_block || meta.hostelBlock || "Block A",
+        roomNumber: profileData?.room_number || meta.roomNumber || "808",
         blockRoom: blockRoomStr,
-        walletBalance: studentData?.wallet_balance ?? profileData?.wallet_balance ?? 1000.0,
+        walletBalance: profileData?.wallet_balance ?? 1000.0,
         role: activeRole,
         avatar: (profileData?.full_name || meta.full_name || "AG").slice(0, 2).toUpperCase(),
       };
