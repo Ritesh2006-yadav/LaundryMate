@@ -26,8 +26,10 @@ import Select from "@/components/ui/Select";
 import Badge from "@/components/ui/Badge";
 import ClientPortal from "@/components/common/ClientPortal";
 import { getStoredStaff, saveStoredStaff } from "@/lib/supabase/authService";
+import { useLaundryOrders } from "@/hooks/useLaundryOrders";
 
 export default function AdminStaffPage() {
+  const { orders } = useLaundryOrders();
   const [staffList, setStaffList] = useState(() => getStoredStaff());
   const [searchTerm, setSearchTerm] = useState("");
   const [hubFilter, setHubFilter] = useState("all");
@@ -323,7 +325,9 @@ export default function AdminStaffPage() {
             <div className="pt-3 border-t border-gray-100 flex items-center justify-between">
               <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
                 <Award className="w-4 h-4 text-[#F58220]" />
-                <span>{st.ordersCompleted || 72} Orders Fulfilled</span>
+                <span>
+                  {orders.filter((o) => o.assignedStaff?.staffId === st.staffId && ["Delivered", "Completed"].includes(o.status)).length} Orders Fulfilled
+                </span>
               </div>
 
               <div className="flex items-center gap-1">

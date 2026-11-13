@@ -92,8 +92,8 @@ export default function StaffPickupManagementPage() {
 
   const handleOpenCollectionModal = (order) => {
     setOrderToCollect(order);
-    setActualCount(order.itemsCount || 6);
-    setActualWeight(parseFloat(order.weight || order.approxWeight || 3.5));
+    setActualCount(order.itemsCount || 1);
+    setActualWeight(parseFloat(order.weightKg || order.weight || order.approxWeight || 1.0));
     setCollectionRemarks("Garments collected from student room and tagged for wash plant.");
     setCollectionSuccess(false);
   };
@@ -305,7 +305,7 @@ export default function StaffPickupManagementPage() {
                       <td className="py-4 px-6 text-xs">
                         <span className="font-semibold text-[#6633CC]">{order.service}</span>
                         <div className="text-[11px] text-[#6B6780] mt-0.5">
-                          {order.itemsCount || 6} items • ~{order.weight || order.approxWeight || 3.5} kg
+                          {order.itemsCount || 0} items • ~{order.weightKg || order.weight || order.approxWeight || 0} kg
                         </div>
                       </td>
 

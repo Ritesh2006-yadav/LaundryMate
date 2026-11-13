@@ -25,7 +25,7 @@ export default function StaffReportsPage() {
     ["In Washing", "In Drying", "Ironing", "Ready for Delivery"].includes(o.status)
   );
 
-  const totalKg = orders.reduce((sum, o) => sum + (o.weightKg || 5), 0);
+  const totalKg = orders.reduce((sum, o) => sum + (Number(o.weightKg) || 0), 0);
 
   const showToast = (msg) => {
     setToastMsg(msg);
@@ -36,7 +36,7 @@ export default function StaffReportsPage() {
     let csv = "data:text/csv;charset=utf-8,";
     csv += "Order ID,Student Name,Service,Weight(kg),Pieces,Status,Hostel\n";
     orders.forEach((o) => {
-      csv += `"${o.id}","${o.studentName}","${o.service}",${o.weightKg || 5},${o.itemsCount},"${o.status}","${o.roomBlock || ""}"\n`;
+      csv += `"${o.id}","${o.studentName}","${o.service}",${o.weightKg || 0},${o.itemsCount || 0},"${o.status}","${o.roomBlock || ""}"\n`;
     });
 
     const encoded = encodeURI(csv);

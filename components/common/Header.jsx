@@ -212,7 +212,7 @@ export default function Header({
     },
     "/admin/hostels": {
       title: "Hostel Management",
-      subtitle: "Oversee residential buildings, warden allocations, room capacities, and hub routing",
+      subtitle: "Oversee residential buildings, block allocations, room capacities, and hub routing",
       backHref: "/admin/dashboard",
     },
     "/admin/reports": {
@@ -413,10 +413,10 @@ export default function Header({
             className="flex items-center gap-2 p-1.5 pr-2.5 sm:pr-3 rounded-full border border-[#E5E3F0] hover:border-[#6633CC]/40 hover:bg-[#F5F4FA] transition-all cursor-pointer"
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#6633CC] to-[#8C52FF] text-white flex items-center justify-center font-bold text-xs shadow-sm">
-              {(user?.role === role ? user?.avatar : null) || (role === "admin" ? "AD" : role === "staff" ? "RK" : "AG")}
+              {user?.avatar || (role === "admin" ? "AD" : role === "staff" ? "ST" : "ST")}
             </div>
             <span className="text-xs font-semibold text-[#211747] hidden sm:inline-block">
-              {((user?.role === role ? user?.name : null) || (role === "staff" ? "Rohit" : role === "admin" ? "Baldev" : "Akshay")).split(" ")[0]}
+              {(user?.name || (role === "admin" ? "Admin" : role === "staff" ? "Staff" : "Student")).split(" ")[0]}
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-[#8F8A9E]" />
           </button>
@@ -426,10 +426,10 @@ export default function Header({
               {/* Profile Card Header */}
               <div className="p-3 rounded-xl bg-[#FAF9FD] border border-[#E5E3F0]/60 space-y-1">
                 <p className="text-sm font-bold text-[#211747] truncate">
-                  {(user?.role === role ? user?.name : null) || (role === "staff" ? "Rohit Kumar" : role === "admin" ? "Dr. Baldev Singh" : "Akshay Gupta")}
+                  {user?.name || (role === "admin" ? "Administrator" : role === "staff" ? "Laundry Staff Member" : "Registered Student")}
                 </p>
                 <p className="text-xs font-medium text-[#6633CC]">
-                  {(user?.role === role ? (user?.regNo || user?.staffId) : null) || (role === "staff" ? "STF-8821 • Hub Specialist" : role === "admin" ? "ADM-LPU-01" : "LPU12345678")}
+                  {user?.regNo || user?.staffId || user?.email || (role === "admin" ? "Admin Console" : role === "staff" ? "Central Laundry Complex" : "Student Portal")}
                 </p>
                 {user?.hostel && (
                   <p className="text-[11px] text-[#6B6780] flex items-center gap-1 pt-0.5 truncate">

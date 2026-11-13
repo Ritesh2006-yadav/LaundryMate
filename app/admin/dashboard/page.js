@@ -131,104 +131,117 @@ export default function AdminDashboardPage() {
     setTimeout(() => setToastMessage(""), 3500);
   };
 
-  /* ------------------- KPI CALCULATIONS (ACTUAL DATA) ------------------- */
-  const totalStudentsCount = students.length || 1248;
-  const totalStaffCount = staffList.length || 18;
-  const totalOrdersCount = orders.length || 428;
+  /* ------------------- KPI CALCULATIONS (ACTUAL DATA STRICTLY) ------------------- */
+  const totalStudentsCount = students.length;
+  const totalStaffCount = staffList.length;
+  const totalOrdersCount = orders.length;
 
   const completedOrdersCount = orders.filter(
     (o) => o.status === "Delivered" || o.status === "Completed"
-  ).length || 396;
+  ).length;
 
   const pendingOrdersCount = orders.filter(
     (o) =>
       o.status !== "Delivered" &&
       o.status !== "Completed" &&
-      o.status !== "Cancelled"
-  ).length || 20;
+      o.status !== "Cancelled" &&
+      o.status !== "Rejected"
+  ).length;
+
+  const cancelledOrdersCount = orders.filter(
+    (o) => o.status === "Cancelled" || o.status === "Rejected"
+  ).length;
 
   const openComplaintsCount = complaints.filter(
     (c) => c.status !== "Resolved" && c.status !== "Rejected"
-  ).length || 3;
+  ).length;
 
   // On-time percentage calculation
   const onTimePercentage =
     totalOrdersCount > 0
-      ? Math.round(
-          ((completedOrdersCount) /
-            Math.max(1, completedOrdersCount + 4)) *
-            100
-        )
-      : 94;
+      ? Math.round((completedOrdersCount / totalOrdersCount) * 100)
+      : 100;
 
-  /* ------------------- ANALYTICS DATA GENERATION ------------------- */
+  /* ------------------- ANALYTICS DATA GENERATION (DERIVED FROM ACTUAL ORDERS) ------------------- */
 
-  // 1. Weekly Orders Graph (Area Chart by days)
-  const weeklyOrdersData = [
-    { day: "Mon", orders: 48, clothes: 310 },
-    { day: "Tue", orders: 64, clothes: 420 },
-    { day: "Wed", orders: 58, clothes: 390 },
-    { day: "Thu", orders: 82, clothes: 550 },
-    { day: "Fri", orders: 96, clothes: 680 },
-    { day: "Sat", orders: 115, clothes: 820 },
-    { day: "Sun", orders: 85, clothes: 580 },
-  ];
+  // 1. Weekly Orders Graph (computed from actual orders if present)
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const dayOrderMap = { Sun: { orders: 0, clothes: 0 }, Mon: { orders: 0, clothes: 0 }, Tue: { orders: 0, clothes: 0 }, Wed: { orders: 0, clothes: 0 }, Thu: { orders: 0, clothes: 0 }, Fri: { orders: 0, clothes: 0 }, Sat: { orders: 0, clothes: 0 } };
+  orders.forEach((o) => {
+    const d = o.requestDate ? new Date(o.requestDate) : new Date();
+    const dayName = !isNaN(d.getTime()) ? daysOfWeek[d.getDay()] : "Mon";
+    if (dayOrderMap[dayName]) {
+      dayOrderMap[dayName].orders += 1;
+      dayOrderMap[dayName].clothes += Number(o.itemsCount) || 1;
+    }
+  });
 
-  // 2. Monthly Orders Graph (Area Chart across months)
+  const weeklyOrdersData = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => ({
+    day,
+    orders: dayOrderMap[day].orders,
+    clothes: dayOrderMap[day].clothes,
+  }));
+
+  // 2. Monthly Orders Graph
   const monthlyOrdersData = [
-    { month: "Aug", orders: 210, revenue: 48500 },
-    { month: "Sep", orders: 345, revenue: 79200 },
-    { month: "Oct", orders: 396, revenue: 91400 },
-    { month: "Nov", orders: totalOrdersCount, revenue: 98450 },
+    { month: "Current Cycle", orders: totalOrdersCount, revenue: orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0) },
   ];
 
-  // 3. Order Status Distribution (Donut Chart matching Screen 11)
+  // 3. Order Status Distribution (Donut Chart)
   const orderDistributionData = [
     {
       name: `Completed (${completedOrdersCount})`,
       value: completedOrdersCount,
       color: "#10B981",
-      percentage: `${Math.round((completedOrdersCount / totalOrdersCount) * 100)}%`,
+      percentage: totalOrdersCount > 0 ? `${Math.round((completedOrdersCount / totalOrdersCount) * 100)}%` : "0%",
     },
     {
       name: `In Process (${pendingOrdersCount})`,
       value: pendingOrdersCount,
       color: "#3B82F6",
-      percentage: `${Math.round((pendingOrdersCount / totalOrdersCount) * 100)}%`,
+      percentage: totalOrdersCount > 0 ? `${Math.round((pendingOrdersCount / totalOrdersCount) * 100)}%` : "0%",
     },
     {
-      name: `Cancelled (12)`,
-      value: 12,
+      name: `Cancelled (${cancelledOrdersCount})`,
+      value: cancelledOrdersCount,
       color: "#EF4444",
-      percentage: "2.8%",
+      percentage: totalOrdersCount > 0 ? `${Math.round((cancelledOrdersCount / totalOrdersCount) * 100)}%` : "0%",
     },
   ];
 
   // 4. Complaint Statistics (Bar Chart)
   const complaintStatsData = [
-    { type: "Missing Clothes", count: complaints.filter((c) => c.type === "Missing Clothes").length || 4 },
-    { type: "Damaged Clothes", count: complaints.filter((c) => c.type === "Damaged Clothes").length || 3 },
-    { type: "Delayed Delivery", count: complaints.filter((c) => c.type === "Delayed Delivery").length || 5 },
-    { type: "Wrong Clothes", count: complaints.filter((c) => c.type === "Wrong Clothes Delivered").length || 2 },
-    { type: "Quality Issue", count: complaints.filter((c) => c.type === "Poor Washing Quality").length || 2 },
+    { type: "Missing Clothes", count: complaints.filter((c) => c.type === "Missing Clothes").length },
+    { type: "Damaged Clothes", count: complaints.filter((c) => c.type === "Damaged Clothes").length },
+    { type: "Delayed Delivery", count: complaints.filter((c) => c.type === "Delayed Delivery").length },
+    { type: "Wrong Clothes", count: complaints.filter((c) => c.type === "Wrong Clothes Delivered").length },
+    { type: "Quality Issue", count: complaints.filter((c) => c.type === "Poor Washing Quality").length },
   ];
 
   // 5. Most Popular Services (Bar Chart)
-  const popularServicesData = [
-    { name: "Wash & Fold", orders: 180, percentage: 42, color: "#6633CC" },
-    { name: "Wash & Iron", orders: 120, percentage: 28, color: "#8B5CF6" },
-    { name: "Wash Only", orders: 70, percentage: 16, color: "#3B82F6" },
-    { name: "Wash Dry & Iron", orders: 42, percentage: 10, color: "#F58220" },
-    { name: "Iron Only", orders: 16, percentage: 4, color: "#EC4899" },
-  ];
+  const serviceCounts = {};
+  orders.forEach((o) => {
+    const sName = o.service || "Wash & Fold";
+    serviceCounts[sName] = (serviceCounts[sName] || 0) + 1;
+  });
+  const popularServicesData = Object.keys(serviceCounts).length > 0
+    ? Object.entries(serviceCounts).map(([name, count]) => ({
+        name,
+        orders: count,
+        percentage: totalOrdersCount > 0 ? Math.round((count / totalOrdersCount) * 100) : 0,
+        color: "#6633CC",
+      }))
+    : services.map((s) => ({
+        name: s.name,
+        orders: 0,
+        percentage: 0,
+        color: "#6633CC",
+      }));
 
-  // 6. Revenue Overview Data (Total Revenue calculated from orders amount)
-  const totalRevenue = orders.reduce((sum, o) => sum + (o.amount || 240), 0);
+  // 6. Revenue Overview Data (Total Revenue calculated strictly from real orders)
+  const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
   const revenueTrendData = [
-    { week: "Week 1", revenue: 18400 },
-    { week: "Week 2", revenue: 24200 },
-    { week: "Week 3", revenue: 27150 },
-    { week: "Week 4", revenue: 28700 },
+    { week: "Current Period", revenue: totalRevenue },
   ];
 
   /* ------------------- ADMIN CONTROLS HANDLERS ------------------- */
@@ -871,7 +884,7 @@ export default function AdminDashboardPage() {
                       <td className="py-3 px-4 font-bold">{ord.studentName}</td>
                       <td className="py-3 px-4">{ord.service}</td>
                       <td className="py-3 px-4">
-                        {ord.itemsCount} clothes ({ord.weightKg || 5} kg)
+                        {ord.itemsCount} clothes ({ord.weightKg || 0} kg)
                       </td>
                       <td className="py-3 px-4">
                         <Badge status={ord.status} showDot />

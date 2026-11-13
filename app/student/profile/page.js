@@ -25,9 +25,9 @@ import { getStoredStudents, saveStoredStudents } from "@/lib/supabase/authServic
 
 export default function StudentProfilePage() {
   const { user, logout, updateUserProfile } = useAuth();
-  const [phone, setPhone] = useState(user?.phone || "+91 81076 15285");
-  const [blockRoom, setBlockRoom] = useState(user?.blockRoom || "A / 808");
-  const [walletBalance, setWalletBalance] = useState(user?.walletBalance || 1000);
+  const [phone, setPhone] = useState(user?.phone || "");
+  const [blockRoom, setBlockRoom] = useState(user?.blockRoom || "");
+  const [walletBalance, setWalletBalance] = useState(user?.walletBalance ?? 1000);
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
   const [topUpAmount, setTopUpAmount] = useState(500);
   const [toastMsg, setToastMsg] = useState("");
@@ -53,8 +53,8 @@ export default function StudentProfilePage() {
     try {
       // Split blockRoom into block and room if formatted
       const parts = blockRoom.split("/").map((p) => p.trim());
-      const hostelBlock = parts[0] || user?.hostelBlock || "Block A";
-      const roomNumber = parts[1] || user?.roomNumber || "808";
+      const hostelBlock = parts[0] || user?.hostelBlock || "";
+      const roomNumber = parts[1] || user?.roomNumber || "";
 
       if (updateUserProfile) {
         await updateUserProfile({

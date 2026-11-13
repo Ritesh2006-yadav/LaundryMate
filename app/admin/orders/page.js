@@ -75,12 +75,12 @@ export default function AdminOrdersPage() {
       `"${o.id}"`,
       `"${o.studentName}"`,
       `"${o.service}"`,
-      o.itemsCount,
-      o.weightKg || 5,
+      o.itemsCount || 0,
+      o.weightKg || 0,
       `"${o.roomBlock || ""}"`,
       `"${o.requestDate || ""}"`,
       `"${o.status}"`,
-      o.amount || 200,
+      o.amount || 0,
     ]);
 
     const csvContent =
@@ -250,10 +250,10 @@ export default function AdminOrdersPage() {
                       {order.service}
                     </td>
                     <td className="py-4 px-4">
-                      {order.itemsCount} clothes ({order.weightKg || 5} kg)
+                      {order.itemsCount || 0} clothes ({order.weightKg || 0} kg)
                     </td>
                     <td className="py-4 px-4 text-[#6B6780]">
-                      {order.roomBlock || "BH-3 / 210"}
+                      {order.roomBlock || "Not specified"}
                     </td>
                     <td className="py-4 px-4 text-[#8F8A9E]">
                       {order.requestDate}
@@ -262,7 +262,7 @@ export default function AdminOrdersPage() {
                       <Badge status={order.status} showDot />
                     </td>
                     <td className="py-4 px-4 font-bold text-[#211747]">
-                      ₹{order.amount || 200}
+                      ₹{order.amount || 0}
                     </td>
                     <td className="py-4 px-5 text-right">
                       <div className="flex items-center justify-end gap-1.5">
@@ -336,7 +336,7 @@ export default function AdminOrdersPage() {
                 <div className="flex justify-between">
                   <span className="text-[#6B6780]">Clothes Manifest:</span>
                   <span className="font-semibold text-[#211747]">
-                    {selectedOrder.itemsCount} items ({selectedOrder.weightKg || 5} kg)
+                    {selectedOrder.itemsCount || 0} items ({selectedOrder.weightKg || 0} kg)
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -345,7 +345,7 @@ export default function AdminOrdersPage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#6B6780]">Total Tariff:</span>
-                  <span className="font-extrabold text-[#211747]">₹{selectedOrder.amount || 200}</span>
+                  <span className="font-extrabold text-[#211747]">₹{selectedOrder.amount || 0}</span>
                 </div>
               </div>
 

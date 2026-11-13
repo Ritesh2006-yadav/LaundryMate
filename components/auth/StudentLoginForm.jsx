@@ -41,13 +41,14 @@ export default function StudentLoginForm({ onSwitchToRegister }) {
       });
 
       if (result.success) {
-        router.push("/student/dashboard");
+        window.location.href = "/student/dashboard";
+        return;
       } else {
         setError(result.error || "Invalid Registration Number or Password.");
+        setLoading(false);
       }
     } catch (err) {
       setError(err.message || "Authentication failed. Please try again.");
-    } finally {
       setLoading(false);
     }
   };

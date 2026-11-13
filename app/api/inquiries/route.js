@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
-import { MOCK_INQUIRIES } from "@/lib/supabase/mockData";
 
 // Simple in-memory rate limiting map: ip -> timestamps[]
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
 const MAX_REQUESTS_PER_WINDOW = 5;
 
-// In-memory fallback inquiries storage for development/demo mode
-let localInquiries = [...MOCK_INQUIRIES];
+// In-memory inquiries storage (no fake mock records)
+let localInquiries = [];
 
 function isRateLimited(ip) {
   const now = Date.now();
@@ -138,7 +137,7 @@ export async function POST(request) {
 
     // 2. Input validation & sanitization
     const fullName = sanitize(body.fullName || body.name, 100);
-    const emailOrReg = sanitize(body.emailOrReg || body.regNo, 100);
+    const emailOrReg = sanitize(body.emailOrReg || body.email || body.regNo, 100);
     const hostelResidence = sanitize(body.hostelResidence || body.hostel, 100);
     const category = sanitize(body.category || "General Inquiry", 80);
     const subject = sanitize(body.subject || "", 150);

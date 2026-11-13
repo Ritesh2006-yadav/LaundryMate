@@ -245,7 +245,7 @@ export default function LandingContact() {
                 </div>
 
                 <p className="text-[11px] text-emerald-700 max-w-sm mx-auto">
-                  Please keep this reference ID for any follow-up with the laundry supervisor or hostel warden.
+                  Please keep this reference ID for any follow-up with the laundry supervisor or campus administration.
                 </p>
 
                 <div className="pt-2">

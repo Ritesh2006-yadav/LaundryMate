@@ -106,30 +106,30 @@ export default function Sidebar({ role = "student", onNavigate }) {
     student: {
       title: "Student Portal",
       nav: studentNav,
-      defaultAvatar: "AG",
-      defaultName: "Akshay Gupta",
-      defaultSub: "LPU12345678",
+      defaultAvatar: "ST",
+      defaultName: "University Student",
+      defaultSub: "LMS Portal",
     },
     staff: {
       title: "Staff Portal",
       nav: staffNav,
-      defaultAvatar: "RK",
-      defaultName: "Rohit Kumar",
-      defaultSub: "Laundry Staff",
+      defaultAvatar: "ST",
+      defaultName: "Laundry Staff",
+      defaultSub: "Central Hub",
     },
     admin: {
       title: "Admin Portal",
       nav: adminNav,
       defaultAvatar: "AD",
-      defaultName: "Operations Admin",
-      defaultSub: "Hostel Management",
+      defaultName: "System Administrator",
+      defaultSub: "Operations Division",
     },
   }[role] || {
     title: "Student Portal",
     nav: studentNav,
-    defaultAvatar: "AG",
-    defaultName: "Akshay Gupta",
-    defaultSub: "LPU12345678",
+    defaultAvatar: "ST",
+    defaultName: "University Student",
+    defaultSub: "LMS Portal",
   };
 
   const navItems = roleConfig.nav;

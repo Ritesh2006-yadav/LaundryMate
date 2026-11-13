@@ -292,7 +292,7 @@ export default function StaffAssignedOrdersPage() {
                       {/* Clothes Count */}
                       <td className="py-3.5 px-5 text-center">
                         <span className="text-xs font-bold text-[#211747]">
-                          {order.itemsCount || 6}
+                          {order.itemsCount || 0}
                         </span>
                         <span className="text-[10px] text-[#6B6780] block">pcs</span>
                       </td>
@@ -462,7 +462,7 @@ export default function StaffAssignedOrdersPage() {
                   </div>
                   <div className="p-3 bg-white rounded-xl border border-[#E5E3F0]">
                     <span className="text-[10px] text-[#6B6780] uppercase tracking-wider block">Clothes</span>
-                    <span className="font-bold text-xs text-[#211747]">{orderToView.itemsCount || 6} pcs</span>
+                    <span className="font-bold text-xs text-[#211747]">{orderToView.itemsCount || 0} pcs</span>
                   </div>
                   <div className="p-3 bg-white rounded-xl border border-[#E5E3F0]">
                     <span className="text-[10px] text-[#6B6780] uppercase tracking-wider block">Weight</span>

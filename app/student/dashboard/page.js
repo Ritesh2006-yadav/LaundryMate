@@ -36,27 +36,26 @@ export default function StudentDashboardPage() {
   const [showPricingModal, setShowPricingModal] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
 
-  // Authenticated student's orders with seamless fallback to reference orders
+  // Authenticated student's orders strictly (no fake fallback)
   const studentOrders = useMemo(() => {
+    if (!user) return [];
     const list = getUserOrders(user);
-    if (list && list.length > 0) {
-      return [...list].sort((a, b) => {
-        const numA = parseInt(String(a.id).replace(/\D/g, ""), 10) || 0;
-        const numB = parseInt(String(b.id).replace(/\D/g, ""), 10) || 0;
-        return numB - numA;
-      });
-    }
-    return orders && orders.length > 0 ? orders : [];
-  }, [getUserOrders, user, orders]);
+    if (!list || list.length === 0) return [];
+    return [...list].sort((a, b) => {
+      const numA = parseInt(String(a.id).replace(/\D/g, ""), 10) || 0;
+      const numB = parseInt(String(b.id).replace(/\D/g, ""), 10) || 0;
+      return numB - numA;
+    });
+  }, [getUserOrders, user]);
 
   const studentComplaints = useMemo(() => {
+    if (!user) return [];
     const list = getUserComplaints(user);
-    if (list && list.length > 0) return list;
-    return complaints && complaints.length > 0 ? complaints : [];
-  }, [getUserComplaints, user, complaints]);
+    return list || [];
+  }, [getUserComplaints, user]);
 
-  // Statistics calculated accurately from active data
-  const totalRequests = studentOrders.length || 8;
+  // Statistics calculated accurately from active student data
+  const totalRequests = studentOrders.length;
   
   const inProgress = studentOrders.filter((o) =>
     [
@@ -71,13 +70,13 @@ export default function StudentDashboardPage() {
       "Ironing",
       "Ready for Delivery",
     ].includes(o.status)
-  ).length || 2;
+  ).length;
 
   const completed = studentOrders.filter((o) =>
     ["Delivered", "Completed"].includes(o.status)
-  ).length || 5;
+  ).length;
 
-  const complaintsCount = studentComplaints.length || 1;
+  const complaintsCount = studentComplaints.length;
 
   // Display top 5 most recent requests in table
   const recentOrders = studentOrders.slice(0, 5);
@@ -342,7 +341,7 @@ export default function StudentDashboardPage() {
 
                       {/* 3. Number of Items */}
                       <td className="py-4 px-5 text-[#6B6780] whitespace-nowrap">
-                        {order.itemsCount || 6} pieces
+                        {order.itemsCount || 0} pieces
                       </td>
 
                       {/* 4. Submission Date */}
@@ -450,7 +449,7 @@ export default function StudentDashboardPage() {
                   <div className="flex justify-between">
                     <span className="text-[#6B6780]">Garments & Weight:</span>
                     <span className="font-semibold text-[#211747]">
-                      {selectedOrderForView.itemsCount || 6} pieces • {selectedOrderForView.weightKg || 5} kg
+                      {selectedOrderForView.itemsCount || 0} pieces • {selectedOrderForView.weightKg || 0} kg
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -472,7 +471,7 @@ export default function StudentDashboardPage() {
                   <div className="flex justify-between pt-2 border-t border-[#E5E3F0] items-center">
                     <span className="font-bold text-[#211747]">Total Amount:</span>
                     <span className="font-extrabold text-[#6633CC] text-lg">
-                      ₹{selectedOrderForView.amount || 200}
+                      ₹{selectedOrderForView.amount || 0}
                     </span>
                   </div>
                 </div>

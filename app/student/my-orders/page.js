@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -27,7 +27,7 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function MyOrdersPage() {
   const { user } = useAuth();
-  const { orders, cancelOrder } = useLaundryOrders();
+  const { orders, cancelOrder, getUserOrders } = useLaundryOrders();
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
 
@@ -36,11 +36,11 @@ export default function MyOrdersPage() {
   const [cancelReason, setCancelReason] = useState("");
   const [selectedReceipt, setSelectedReceipt] = useState(null);
 
-  // Filter orders by student's registration number (or all if demo)
-  const studentOrders = orders.filter((o) => {
-    if (!user?.regNo) return true;
-    return !o.studentRegNo || o.studentRegNo === user.regNo || o.studentName === user.name;
-  });
+  // Filter orders strictly by authenticated student
+  const studentOrders = useMemo(() => {
+    if (!user) return [];
+    return getUserOrders(user);
+  }, [user, getUserOrders]);
 
   const filteredOrders = studentOrders.filter((o) => {
     const matchesSearch =
@@ -179,16 +179,16 @@ export default function MyOrdersPage() {
                       <td className="py-4 px-6 font-medium text-[#4A4560]">
                         <div>{order.service}</div>
                         <div className="text-[10px] text-[#6633CC] font-semibold">
-                          ₹{order.amount || 200}
+                          ₹{order.amount || 0}
                         </div>
                       </td>
 
                       <td className="py-4 px-6 text-[#6B6780]">
                         <span className="font-semibold text-[#211747]">
-                          {order.itemsCount || 8} clothes
+                          {order.itemsCount || 0} clothes
                         </span>
                         <div className="text-[10px] text-[#8F8A9E]">
-                          ~{order.weightKg || 5} kg
+                          ~{order.weightKg || 0} kg
                         </div>
                       </td>
 
@@ -371,7 +371,7 @@ export default function MyOrdersPage() {
                   <div className="flex justify-between">
                     <span className="text-[#6B6780]">Garments & Weight:</span>
                     <span className="font-semibold text-[#211747]">
-                      {selectedReceipt.itemsCount || 8} pieces • {selectedReceipt.weightKg || 5} kg
+                      {selectedReceipt.itemsCount || 0} pieces • {selectedReceipt.weightKg || 0} kg
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -389,7 +389,7 @@ export default function MyOrdersPage() {
                   <div className="flex justify-between">
                     <span className="text-[#6B6780]">Assigned Staff:</span>
                     <span className="font-semibold text-[#211747]">
-                      {selectedReceipt.assignedStaff?.name || "Rohit Kumar"} ({selectedReceipt.assignedStaff?.staffId || "STF-8821"})
+                      {selectedReceipt.assignedStaff?.name || "Staff Runner"} ({selectedReceipt.assignedStaff?.staffId || "Central Plant"})
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
@@ -399,7 +399,7 @@ export default function MyOrdersPage() {
                   <div className="flex justify-between pt-2 border-t border-[#E5E3F0] items-center">
                     <span className="font-bold text-[#211747]">Total Paid:</span>
                     <span className="font-extrabold text-[#6633CC] text-lg">
-                      ₹{selectedReceipt.amount || 200}
+                      ₹{selectedReceipt.amount || 0}
                     </span>
                   </div>
                 </div>

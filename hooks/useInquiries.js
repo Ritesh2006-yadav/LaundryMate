@@ -1,12 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { MOCK_INQUIRIES } from "@/lib/supabase/mockData";
 
 let cachedInquiries = null;
 
 export function useInquiries() {
-  const [inquiries, setInquiries] = useState(() => cachedInquiries || MOCK_INQUIRIES);
+  const [inquiries, setInquiries] = useState(() => cachedInquiries || []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

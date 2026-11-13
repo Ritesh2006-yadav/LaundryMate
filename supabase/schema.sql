@@ -19,7 +19,7 @@ CREATE SEQUENCE IF NOT EXISTS inquiry_id_seq START WITH 8900;
 -- 2. ENUMS AND CUSTOM TYPES
 -- ==============================================================================
 DO $$ BEGIN
-  CREATE TYPE user_role AS ENUM ('student', 'staff', 'warden', 'admin');
+  CREATE TYPE user_role AS ENUM ('student', 'staff', 'admin');
 EXCEPTION WHEN duplicate_object THEN null; END $$;
 
 DO $$ BEGIN
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS public.hostels (
   hub_zone TEXT NOT NULL DEFAULT 'Central Laundry Complex',
   total_rooms INTEGER NOT NULL DEFAULT 400,
   capacity INTEGER NOT NULL DEFAULT 800,
-  warden_id UUID, -- Foreign Key linked to profiles(id)
+  manager_id UUID, -- Foreign Key linked to profiles(id)
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

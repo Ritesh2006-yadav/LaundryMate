@@ -283,7 +283,7 @@ export default function StaffDeliveryManagementPage() {
                       <td className="py-4 px-6 text-xs">
                         <span className="font-semibold text-[#6633CC]">{order.service}</span>
                         <div className="text-[11px] text-[#6B6780] mt-0.5">
-                          {order.itemsCount || 6} clothes • {order.weight || order.approxWeight || 3.5} kg
+                          {order.itemsCount || 0} clothes • {order.weightKg || order.weight || order.approxWeight || 0} kg
                         </div>
                       </td>
 

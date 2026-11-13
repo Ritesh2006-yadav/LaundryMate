@@ -1,48 +1,88 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { MOCK_COMPLAINTS } from "@/lib/supabase/mockData";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
+import { fetchDbComplaints, insertDbComplaint } from "@/lib/supabase/dbService";
 
 let cachedComplaints = null;
 
+const formatDbComplaint = (row) => ({
+  id: row.id,
+  orderId: row.order_id,
+  studentId: row.student_id,
+  studentName: row.students?.profiles?.full_name || "Student",
+  studentRegNo: row.students?.reg_no || "",
+  hostel: row.hostel_id || "",
+  roomBlock: `${row.students?.hostel_block || ""} / ${row.students?.room_number || ""}`.trim(),
+  type: row.type || "Other Issue",
+  priority: row.priority || "Medium",
+  description: row.description || "",
+  evidenceUrl: row.evidence_url,
+  status: row.status || "Submitted",
+  createdAt: row.created_at ? new Date(row.created_at).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : "Today",
+  staffResponse: row.staff_response || "Ticket received. Waiting for laundry staff review.",
+  resolutionHistory: (row.complaint_updates && row.complaint_updates.length > 0)
+    ? row.complaint_updates.map((u) => ({
+        stage: u.stage,
+        time: new Date(u.created_at).toLocaleString("en-IN", { dateStyle: "short", timeStyle: "short" }),
+        actor: u.actor_name || "Staff",
+        note: u.message,
+      }))
+    : [
+        {
+          stage: "Submitted",
+          time: row.created_at ? new Date(row.created_at).toLocaleString("en-IN", { dateStyle: "short", timeStyle: "short" }) : "Today",
+          actor: row.students?.profiles?.full_name || "Student",
+          note: row.description || "Complaint submitted.",
+        },
+      ],
+});
+
 export function useComplaints() {
-  const [complaints, setComplaints] = useState(() => cachedComplaints || MOCK_COMPLAINTS);
+  const [complaints, setComplaints] = useState(() => cachedComplaints || []);
   const [loading, setLoading] = useState(false);
 
-  const loadStoredComplaints = useCallback((force = false) => {
-    if (!force && cachedComplaints) {
+  const loadStoredComplaints = useCallback(async (force = false) => {
+    if (!force && cachedComplaints !== null) {
       setComplaints(cachedComplaints);
       return;
     }
+
+    setLoading(true);
     try {
+      // 1. Try Supabase database
+      if (isSupabaseConfigured()) {
+        try {
+          const dbRows = await fetchDbComplaints();
+          if (Array.isArray(dbRows)) {
+            const formatted = dbRows.map(formatDbComplaint);
+            cachedComplaints = formatted;
+            setComplaints(formatted);
+            try {
+              localStorage.setItem("lpu_lms_complaints", JSON.stringify(formatted));
+            } catch {}
+            setLoading(false);
+            return;
+          }
+        } catch (dbErr) {
+          console.warn("[Complaints] Database fetch fallback:", dbErr.message);
+        }
+      }
+
+      // 2. Fallback to localStorage (strictly real records, no fake mock injection)
       const stored = localStorage.getItem("lpu_lms_complaints");
       if (stored) {
         const parsed = JSON.parse(stored);
         cachedComplaints = parsed;
         setComplaints(parsed);
       } else {
-        const enriched = MOCK_COMPLAINTS.map((c) => ({
-          ...c,
-          status: c.status === "Under Investigation" ? "Investigation" : c.status || "Submitted",
-          staffResponse: c.staffResponse || "Under review with Hub Inspector. CCTV footage sorting in progress.",
-          internalNotes: c.internalNotes || [],
-          resolutionHistory: c.resolutionHistory || [
-            {
-              stage: "Submitted",
-              time: "06 Nov 2026, 11:30 AM",
-              actor: c.studentName || "Student",
-              note: c.description || "Complaint submitted with image evidence.",
-            },
-          ],
-        }));
-        cachedComplaints = enriched;
-        setComplaints(enriched);
-        localStorage.setItem("lpu_lms_complaints", JSON.stringify(enriched));
+        cachedComplaints = [];
+        setComplaints([]);
       }
     } catch (e) {
       console.error("Failed to load complaints from storage", e);
-      cachedComplaints = MOCK_COMPLAINTS;
-      setComplaints(MOCK_COMPLAINTS);
+      cachedComplaints = [];
+      setComplaints([]);
     } finally {
       setLoading(false);
     }

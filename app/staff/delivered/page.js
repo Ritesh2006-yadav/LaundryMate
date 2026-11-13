@@ -71,7 +71,7 @@ export default function StaffDeliveredOrdersPage() {
                       {order.hostel || "BH-3"}, {order.roomBlock || "B-32 / 210"}
                     </td>
                     <td className="py-4 px-6 text-xs text-[#4A4560]">{order.service}</td>
-                    <td className="py-4 px-6 text-xs text-[#6B6780]">{order.itemsCount || 6} pcs</td>
+                    <td className="py-4 px-6 text-xs text-[#6B6780]">{order.itemsCount || 0} pcs</td>
                     <td className="py-4 px-6 text-xs text-[#6B6780]">{order.requestDate}</td>
                     <td className="py-4 px-6"><Badge status={order.status} showDot /></td>
                   </tr>

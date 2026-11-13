@@ -521,7 +521,7 @@ export default function StaffDashboardPage() {
                     <Badge status={order.status} showDot size="sm" />
                   </div>
                   <span className="text-[11px] text-[#6B6780] block mt-0.5">
-                    {order.service} • {order.itemsCount || 6} items • Ready for next cycle
+                    {order.service} • {order.itemsCount || 0} items • Ready for next cycle
                   </span>
                 </div>
                 <button
@@ -726,7 +726,7 @@ export default function StaffDashboardPage() {
                       {/* 7. Number of Clothes */}
                       <td className="py-4 px-4 text-xs text-[#6B6780] whitespace-nowrap">
                         <span className="font-semibold text-[#211747]">
-                          {order.itemsCount || order.items || 6}
+                          {order.itemsCount || order.items || 0}
                         </span>{" "}
                         clothes
                       </td>
@@ -1294,7 +1294,7 @@ export default function StaffDashboardPage() {
                 <div className="flex justify-between">
                   <span className="text-[#6B6780]">Clothes & Weight:</span>
                   <span className="font-semibold text-[#211747]">
-                    {orderToView.itemsCount || 6} pieces (~{orderToView.weightKg || 5} kg)
+                    {orderToView.itemsCount || 0} pieces (~{orderToView.weightKg || 0} kg)
                   </span>
                 </div>
                 <div className="flex justify-between">

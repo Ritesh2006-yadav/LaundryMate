@@ -506,7 +506,7 @@ export default function AdminHostelsPage() {
               {/* Card Footer Actions */}
               <div className="pt-3 border-t border-[#F0EDF8] flex items-center justify-between">
                 <span className="text-[11px] font-bold text-[#6633CC]">
-                  {hostelOrders.length || 6} Active Orders
+                  {hostelOrders.length} Active Orders
                 </span>
 
                 <div className="flex items-center gap-1.5">

@@ -59,18 +59,20 @@ export default function StaffLoginPage() {
 
       if (result.success) {
         setSuccess(true);
+        // Instant hard navigation ensures fresh layout mounting and session propagation
         setTimeout(() => {
-          router.push("/staff/dashboard");
-        }, 600);
+          window.location.href = "/staff/dashboard";
+        }, 200);
+        return;
       } else {
         setError(result.error || "Invalid Staff ID or Password.");
+        setLoading(false);
       }
     } catch (err) {
       setError(
         err.message ||
           "Authentication failed. Note that staff accounts must be pre-provisioned by administration."
       );
-    } finally {
       setLoading(false);
     }
   };

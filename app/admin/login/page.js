@@ -36,13 +36,13 @@ export default function AdminLoginPage() {
     setTimeout(() => {
       // Valid credentials or administrative ID matching ADM prefix
       switchDemoRole("admin");
-      router.push("/admin/dashboard");
-    }, 400);
+      window.location.href = "/admin/dashboard";
+    }, 200);
   };
 
   return (
     <AuthCard
-      title="Admin & Warden Login"
+      title="Admin Console Login"
       subtitle="University Operations, Audits & Analytics Console"
       badge="Admin Portal"
     >

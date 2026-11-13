@@ -23,7 +23,7 @@ export default function AdminReportsPage() {
   const [toastMsg, setToastMsg] = useState("");
 
   const inventoryReport = getInventoryReport();
-  const totalRevenue = orders.reduce((sum, o) => sum + (o.amount || 200), 0);
+  const totalRevenue = orders.reduce((sum, o) => sum + (Number(o.amount) || 0), 0);
 
   const showToast = (msg) => {
     setToastMsg(msg);
@@ -36,7 +36,7 @@ export default function AdminReportsPage() {
     if (type === "orders") {
       csvContent += "Order ID,Student,Service,Items,Weight(kg),Status,Amount\n";
       orders.forEach((o) => {
-        csvContent += `"${o.id}","${o.studentName}","${o.service}",${o.itemsCount},${o.weightKg || 5},"${o.status}",${o.amount || 200}\n`;
+        csvContent += `"${o.id}","${o.studentName}","${o.service}",${o.itemsCount || 0},${o.weightKg || 0},"${o.status}",${o.amount || 0}\n`;
       });
     } else if (type === "complaints") {
       csvContent += "Complaint ID,Student,Type,Status,Order ID,Description\n";

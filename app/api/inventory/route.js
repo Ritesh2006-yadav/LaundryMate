@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
-import { INITIAL_INVENTORY_ITEMS } from "@/hooks/useInventory";
+import { INITIAL_INVENTORY_ITEMS } from "@/lib/inventoryData";
 
 export async function GET(request) {
   try {

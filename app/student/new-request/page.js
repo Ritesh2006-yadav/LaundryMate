@@ -66,16 +66,16 @@ export default function NewRequestPage() {
   const [colorSeparation, setColorSeparation] = useState(false);
 
   // Accommodation details strictly anchored to authenticated student profile
-  const hostelName = user?.hostel || "BH-5 (Boys Hostel 5)";
-  const hostelBlock = user?.hostelBlock || (user?.blockRoom ? user.blockRoom.split("/")[0].trim() : "Block A");
-  const roomNumber = user?.roomNumber || (user?.blockRoom ? user.blockRoom.split("/")[1]?.trim() : "808");
-  const contactPhone = user?.phone || "+91 81076 15285";
+  const hostelName = user?.hostel || "";
+  const hostelBlock = user?.hostelBlock || (user?.blockRoom ? user.blockRoom.split("/")[0].trim() : "");
+  const roomNumber = user?.roomNumber || (user?.blockRoom ? user.blockRoom.split("/")[1]?.trim() : "");
+  const contactPhone = user?.phone || "";
 
   // Check profile completeness
   const isAccommodationComplete = Boolean(
-    user?.hostel &&
-    (user?.roomNumber || user?.blockRoom) &&
-    user?.phone
+    (user?.hostel || hostelName) &&
+    (user?.roomNumber || roomNumber || user?.blockRoom) &&
+    (user?.phone || contactPhone)
   );
 
   // Step 3: Dynamic Scheduling strictly in Asia/Kolkata (IST)
@@ -120,6 +120,7 @@ export default function NewRequestPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [confirmedOrder, setConfirmedOrder] = useState(null);
+  const [bookingError, setBookingError] = useState("");
 
   const steps = [
     { num: 1, label: "Service" },
@@ -181,15 +182,16 @@ export default function NewRequestPage() {
       // Step 4 Final Booking Submission (Prevents duplicate requests)
       if (isSubmitting) return;
       setIsSubmitting(true);
+      setBookingError("");
 
       const fullRoomBlock = `${hostelBlock} / ${roomNumber}`;
       const locationSnapshot = `${hostelName}, Block ${hostelBlock} / Room ${roomNumber}`;
 
       const orderPayload = {
         studentId: user?.id,
-        studentName: user?.name || "Akshay Gupta",
-        studentRegNo: user?.regNo || "12413882",
-        studentEmail: user?.email || "akshayguptaa19@gmail.com",
+        studentName: user?.name || "Resident Student",
+        studentRegNo: user?.regNo || "",
+        studentEmail: user?.email || "",
         hostel: hostelName,
         hostelBlock,
         roomNumber,
@@ -199,8 +201,8 @@ export default function NewRequestPage() {
         contactPhone,
         service: currentService.name,
         serviceId: currentService.id,
-        itemsCount: totalItems || 8,
-        weightKg: Number(weightKg) || 5,
+        itemsCount: totalItems > 0 ? totalItems : 1,
+        weightKg: Number(weightKg) > 0 ? Number(weightKg) : 1.0,
         pickupDate: activeDateObj.fullFormatted,
         pickupDateKey: activeDateObj.dateKey,
         pickupSlot: activeSlotObj.label,
@@ -235,6 +237,7 @@ export default function NewRequestPage() {
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {
         console.error("Booking failed:", err);
+        setBookingError(err.message || "Failed to confirm booking. Please try again.");
       } finally {
         setIsSubmitting(false);
       }
@@ -824,6 +827,13 @@ export default function NewRequestPage() {
                 Verify all order parameters before finalizing your hostel laundry request
               </p>
             </div>
+
+            {bookingError && (
+              <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2 animate-in fade-in">
+                <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
+                <span>{bookingError}</span>
+              </div>
+            )}
 
             {/* Order Overview Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

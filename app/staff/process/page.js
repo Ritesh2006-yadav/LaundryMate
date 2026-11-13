@@ -290,8 +290,8 @@ function ProcessLaundryContent() {
 
                       {/* Items & Weight */}
                       <td className="py-4 px-6 text-center text-xs">
-                        <div className="font-bold text-[#211747]">{order.itemsCount || 6} pcs</div>
-                        <div className="text-[11px] text-[#6B6780]">{order.weight || order.approxWeight || 3.5} kg</div>
+                        <div className="font-bold text-[#211747]">{order.itemsCount || 0} pcs</div>
+                        <div className="text-[11px] text-[#6B6780]">{order.weightKg || order.weight || order.approxWeight || 0} kg</div>
                       </td>
 
                       {/* Current Stage */}

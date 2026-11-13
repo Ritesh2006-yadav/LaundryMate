@@ -27,24 +27,24 @@ export function AuthProvider({ children }) {
         if (saved) return JSON.parse(saved);
       } catch (e) {}
     }
-    return MOCK_CURRENT_STUDENT;
+    return null;
   });
 
   const [role, setRole] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("lpu_lms_role") || "student";
+      return localStorage.getItem("lpu_lms_role") || null;
     }
-    return "student";
+    return null;
   });
 
   const [loading, setLoading] = useState(false);
   const lastFetchTimeRef = React.useRef(0);
 
-  // Sync latest user details from Supabase session (cached for 2 mins to prevent roundtrips on route navigation)
+  // Sync latest user details from Supabase session
   const refreshUserProfile = useCallback(async (force = false) => {
     if (!isSupabaseConfigured()) return;
     const now = Date.now();
-    if (!force && now - lastFetchTimeRef.current < 120000) {
+    if (!force && now - lastFetchTimeRef.current < 60000) {
       return;
     }
     lastFetchTimeRef.current = now;
@@ -67,25 +67,35 @@ export function AuthProvider({ children }) {
       } catch {}
 
       const activeRole = profileData?.role || meta.role || role || "student";
-      const cleanReg = profileData?.reg_no || meta.reg_no || "12413882";
-      const blockRoomStr = (profileData?.hostel_block && profileData?.room_number)
-        ? `${profileData.hostel_block} / ${profileData.room_number}`
-        : meta.block_room || "Block A / 808";
+      const cleanReg = profileData?.reg_no || meta.reg_no || "";
+      const hBlock = profileData?.hostel_block || meta.hostel_block || meta.hostelBlock || "";
+      const rNum = profileData?.room_number || meta.room_number || meta.roomNumber || "";
+      const blockRoomStr = (hBlock && rNum)
+        ? `${hBlock} / ${rNum}`
+        : meta.block_room || (hBlock || rNum ? `${hBlock} ${rNum}`.trim() : "");
+
+      const userName = profileData?.full_name || meta.full_name || (authUser.email ? authUser.email.split("@")[0] : "Student");
+      const initials = userName
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase() || "ST";
 
       const refreshedUser = {
         id: authUser.id,
-        name: profileData?.full_name || meta.full_name || "Akshay Gupta",
+        name: userName,
         regNo: cleanReg,
         staffId: cleanReg,
         email: authUser.email,
-        phone: profileData?.phone || meta.phone || "+91 81076 15285",
-        hostel: profileData?.hostel_name || meta.hostel_name || "BH-5 (Boys Hostel 5)",
-        hostelBlock: profileData?.hostel_block || meta.hostelBlock || "Block A",
-        roomNumber: profileData?.room_number || meta.roomNumber || "808",
+        phone: profileData?.phone || meta.phone || "",
+        hostel: profileData?.hostel_name || meta.hostel_name || "",
+        hostelBlock: hBlock,
+        roomNumber: rNum,
         blockRoom: blockRoomStr,
         walletBalance: profileData?.wallet_balance ?? 1000.0,
         role: activeRole,
-        avatar: (profileData?.full_name || meta.full_name || "AG").slice(0, 2).toUpperCase(),
+        avatar: initials,
       };
 
       setUser(refreshedUser);
@@ -97,15 +107,18 @@ export function AuthProvider({ children }) {
     }
   }, [role]);
 
-  // Listen to Supabase Auth state changes
+  // Listen to Supabase Auth state changes and sync profile on mount
   useEffect(() => {
     if (!isSupabaseConfigured()) return;
+
+    // Initial check on mount
+    refreshUserProfile();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (event === "SIGNED_IN" || event === "TOKEN_REFRESHED") {
           if (session?.user) {
-            refreshUserProfile();
+            refreshUserProfile(true);
           }
         } else if (event === "SIGNED_OUT") {
           setUser(null);

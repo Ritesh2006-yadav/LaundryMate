@@ -104,7 +104,7 @@ export default function LandingFooter() {
                   href="/admin/login"
                   className="hover:text-white transition-colors"
                 >
-                  Admin & Warden Portal
+                  Admin Portal
                 </Link>
               </li>
             </ul>

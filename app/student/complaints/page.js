@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import {
   Plus,
@@ -26,14 +26,19 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function MyComplaintsPage() {
   const { user } = useAuth();
-  const { complaints } = useComplaints();
+  const { complaints, getUserComplaints } = useComplaints();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [selectedComplaint, setSelectedComplaint] = useState(null);
 
-  // Filter complaints
-  const filtered = complaints.filter((c) => {
+  // Filter complaints strictly for the authenticated student
+  const studentComplaints = useMemo(() => {
+    if (!user) return [];
+    return getUserComplaints(user);
+  }, [user, getUserComplaints]);
+
+  const filtered = studentComplaints.filter((c) => {
     const matchesSearch =
       c.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       c.type.toLowerCase().includes(searchTerm.toLowerCase()) ||

@@ -478,7 +478,7 @@ export default function AdminStudentsPage() {
               <div className="p-3 bg-[#FAF9FD] rounded-2xl border border-[#E5E3F0]/60">
                 <span className="text-[10px] font-bold text-[#8F8A9E] uppercase">Orders Placed</span>
                 <p className="text-xs font-bold text-[#6633CC] mt-0.5">
-                  {studentOrders.length || selectedStudent.totalOrders || 8} Orders
+                  {studentOrders.length} Orders
                 </p>
               </div>
               <div className="p-3 bg-[#FAF9FD] rounded-2xl border border-[#E5E3F0]/60">

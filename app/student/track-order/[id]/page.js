@@ -26,13 +26,13 @@ import WashingMachineIllustration from "@/components/student/WashingMachineIllus
 export default function OrderTrackingPage() {
   const params = useParams();
   const router = useRouter();
-  const rawId = params?.id || "LMS1054";
-  const { orders, getOrderById } = useLaundryOrders();
+  const rawId = params?.id || "";
+  const { getOrderById } = useLaundryOrders();
 
   const [selectedReceiptOrder, setSelectedReceiptOrder] = useState(null);
 
-  // Retrieve matching order or fallback to first order
-  const activeOrder = getOrderById(rawId) || orders[0] || null;
+  // Retrieve matching order strictly by ID
+  const activeOrder = rawId ? getOrderById(rawId) : null;
 
   if (!activeOrder) {
     return (
